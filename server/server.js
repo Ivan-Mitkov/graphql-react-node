@@ -1,24 +1,25 @@
+const path = require("path");
 const express = require("express");
-const { ApolloServer, gql } = require("apollo-server-express");
+const { ApolloServer } = require("apollo-server-express");
+const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
+const { loadFilesSync } = require("@graphql-tools/load-files");
+
 require("dotenv").config();
 
 const app = express();
+
 //to create server need types and resolvers
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
-//types qyery/mutation/subscription
-const typeDefs = gql`
-  type Query {
-    totalPosts: Int!
-  }
-`;
+
+// usage
+// typedefs autoloader
+const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, "./schema")));
 //resolvers
-const resolvers = {
-  Query: {
-    totalPosts: () => 52,
-  },
-};
+const resolvers = mergeResolvers(
+  loadFilesSync(path.join(__dirname, "./resolvers"))
+);
 
 //graphql server
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
