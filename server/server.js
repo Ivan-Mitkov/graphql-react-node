@@ -1,5 +1,6 @@
 const path = require("path");
 const express = require("express");
+const mongoose = require("mongoose");
 const { ApolloServer } = require("apollo-server-express");
 const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
 const { loadFilesSync } = require("@graphql-tools/load-files");
@@ -7,7 +8,21 @@ const { loadFilesSync } = require("@graphql-tools/load-files");
 require("dotenv").config();
 
 const app = express();
-
+//DB
+const db = async () => {
+  try {
+    const success = await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    });
+    console.log("DB connected");
+  } catch (error) {
+    console.log("DB connection error", error);
+  }
+};
+db();
 //to create server need types and resolvers
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
