@@ -1,10 +1,10 @@
-import AllPosts from "./components/AllPosts";
+import Home from "./pages/Home";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   return (
     <div className="App">
-      <AllPosts />
+      <Home />
     </div>
   );
 };

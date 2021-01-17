@@ -12,6 +12,10 @@ const GET_ALL_POSTS = gql`
 `;
 const AllPosts = () => {
   const { data, loading, error } = useQuery(GET_ALL_POSTS);
+  const [toggle, setToggle] = React.useState(false);
+  //useLazyQuery if we want to get data as response of some event
+  //execute fetchPosts to trigger this hook
+  //there are naming conflict between useQuery and useLazyQuery so we are renaming data,loading and error
   const [
     fetchPosts,
     { data: postsData, loading: loadingData, error: errorData },
@@ -19,6 +23,15 @@ const AllPosts = () => {
 
   if (loading) return <p className="p-5">Loading...</p>;
   if (error) return <p className="p-5">{error.message}</p>;
+
+  const toggleData = () => {
+    setToggle(!toggle);
+  };
+
+  const handleClick = () => {
+    toggleData();
+    fetchPosts();
+  };
 
   return (
     <Container fluid className="align-items-center w-75 p-5">
@@ -38,12 +51,12 @@ const AllPosts = () => {
       </Row>
 
       <Row>
-        <Button className="btn btn-raised btn-primary" onClick={fetchPosts}>
+        <Button className="btn btn-raised btn-primary" onClick={handleClick}>
           Click
         </Button>
       </Row>
       <hr />
-      {JSON.stringify(postsData)}
+      {!loadingData && !errorData && toggle && JSON.stringify(postsData)}
     </Container>
   );
 };
