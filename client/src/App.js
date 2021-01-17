@@ -1,11 +1,12 @@
-import ExchangeRates from "./components/testApollo";
-function App() {
+import AllPosts from "./components/AllPosts";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+const App = () => {
   return (
     <div className="App">
-      <h2>My first Apollo app 🚀</h2>
-      <ExchangeRates />
+      <AllPosts />
     </div>
   );
-}
+};
 
 export default App;
