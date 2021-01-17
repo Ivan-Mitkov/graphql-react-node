@@ -1,8 +1,9 @@
 import React, { useReducer, createContext } from "react";
+import {LOGGED_IN_USER} from '../constants'
 //reducer
 const firebaseReducer = (state, action) => {
   switch (action.type) {
-    case "LOGGED_IN_USER":
+    case LOGGED_IN_USER:
       return {
         ...state,
         user: action.payload,
@@ -17,7 +18,7 @@ const initialState = {
 };
 
 //context
-const AuthContext = createContext(initialState);
+export const AuthContext = createContext(initialState);
 
 //context provider
 const AuthProvider = ({ children }) => {

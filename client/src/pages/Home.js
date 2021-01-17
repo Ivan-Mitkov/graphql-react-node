@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { gql, useQuery, useLazyQuery } from "@apollo/client";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { AuthContext } from "../context/authContext";
+import { LOGGED_IN_USER } from "../constants";
+
 const GET_ALL_POSTS = gql`
   query {
     allPosts {
@@ -11,8 +14,17 @@ const GET_ALL_POSTS = gql`
   }
 `;
 const AllPosts = () => {
+  const { state, dispatch } = useContext(AuthContext);
+
   const { data, loading, error } = useQuery(GET_ALL_POSTS);
   const [toggle, setToggle] = React.useState(false);
+  
+  //check context
+  console.log(state.user);
+  React.useEffect(() => {
+    dispatch({ type: LOGGED_IN_USER, payload: "Ivan" });
+  }, [dispatch]);
+
   //useLazyQuery if we want to get data as response of some event
   //execute fetchPosts to trigger this hook
   //there are naming conflict between useQuery and useLazyQuery so we are renaming data,loading and error
